@@ -7,8 +7,9 @@
 
 int main(int argc, char* argv[])
 {
-    int notes_per_octave, starting_midi;
-    double semitone_ratio, c0, c5;
+    int notes_per_octave, starting_midi, i;
+    double ratio, c0, c5, freq;
+    double scale[24];
 
     if (argc != 3)
     {
@@ -34,17 +35,21 @@ int main(int argc, char* argv[])
 	return 1;
     }
 
-    semitone_ratio = pow(2.0, 1.0 / notes_per_octave);
-    printf("Semitone Ratio: %lf\n\n", semitone_ratio);
+    ratio = pow(2.0, 1.0 / 12.0); //semitone ratio
+    printf("Semitone Ratio: %lf\n\n", ratio);
     
-    c5 = 220.0 * pow(semitone_ratio, 3.0);
+    c5 = 220.0 * pow(ratio, 3.0);
     c0 = c5 * pow(0.5, 5.0);
-    
-    double result;
-    for (int i = 0; i < notes_per_octave; i++)
+
+    for (i = 0; i < notes_per_octave; i++)
     {
-	result = c0 * pow(semitone_ratio, (starting_midi + i));
-	printf("%d) %lf\n", i + 1, result);
+	freq = c0 * pow(ratio, starting_midi + i);
+	scale[i] = freq;
+    }
+
+    for (i = 0; i < notes_per_octave; i++)
+    {
+	printf("%d) %lf\n", i + 1, scale[i]);
     }
 
     return 0;
