@@ -35,14 +35,20 @@ int main(int argc, char* argv[])
 	return 1;
     }
     
+    /*Need the original 12 semitones per octave ratio to find starting note 
+    otherwise you get some funky values for it*/
     ratio = pow(2.0, 1.0 / 12.0);
-    printf("Semitone Ratio: %lf\n\n", ratio);
+    printf("Semitone Ratio: %lf\n", ratio);
     
     c5 = 220.0 * pow(ratio, 3.0); //find c5 3 semitones above low A.
     c0 = c5 * pow(0.5, 5.0); //find c0 midinote 0.
 
     //Find the starting note frequency (starting_midi).
     freq = c0 * pow(ratio, starting_midi);
+    
+    //Find the relative ratio for the input(?)
+    ratio = pow(2.0, 1.0 / notes_per_octave);
+    printf("New Ratio: %lf\n", ratio);
 
     for (i = 0; i < notes_per_octave; i++)
     {
